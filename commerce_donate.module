@@ -1,6 +1,39 @@
 <?php
 
-include_once 'commerce_donate.features.inc';
+
+/**
+ * Implements hook_commerce_product_type_info().
+ */
+function commerce_donate_commerce_product_type_info() {
+  $items = array(
+    'donation' => array(
+      'type' => 'donation',
+      'name' => 'Donation',
+      'description' => 'Variable price product foo',
+      'help' => '',
+      'revision' => '1',
+      'module' => 'commerce_donate',
+    ),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function commerce_donate_node_info() {
+  $items = array(
+    'donation' => array(
+      'name' => t('Donation'),
+      'base' => 'node_content',
+      'description' => t('Drupal Commerce donation product'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}
 
 /**
  * Implements hook_commerce_line_item_type_info().

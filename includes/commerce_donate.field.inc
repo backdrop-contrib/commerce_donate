@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @file
- * commerce_donate.features.field.inc
+ * Provides field defintions.
  */
 
 /**
- * Implements hook_field_default_fields().
+ * Return field definitions.
  */
-function commerce_donate_field_default_fields() {
+function commerce_donate_get_fields() {
   $fields = array();
 
   // Exported field: 'commerce_product-donation-commerce_price'

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * commerce_donate.rules_defaults.inc
- */
 
 /**
  * Implements hook_default_rules_configuration().
