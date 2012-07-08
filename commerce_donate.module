@@ -85,7 +85,7 @@ function commerce_donate_commerce_donate_line_item_configuration($line_item_type
       'field_name' => $field_name,
       'entity_type' => 'commerce_line_item',
       'bundle' => $type,
-      'label' => t('Donation amount'),
+      'label' => t('Amount'),
       'required' => TRUE,
       'commerce_cart_settings' => array('field_access' => 1),
       'settings' => array(
