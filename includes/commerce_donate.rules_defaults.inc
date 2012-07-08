@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ * Provides default rules configuration for adding the donation value entered to
+ * the line item price.
+ */
+
+/**
  * Implements hook_default_rules_configuration().
  */
 function commerce_donate_default_rules_configuration() {

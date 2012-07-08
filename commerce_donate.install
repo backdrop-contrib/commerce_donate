@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ * Installation file for commerce_donate. Creates necessary entity fields on
+ * installation.
+ */
+
+/**
  * Implements hook_install().
  */
 function commerce_donate_install() {

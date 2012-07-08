@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Module provides donation line item, product and product display node for
+ * Drupal Commerce.
+ */
 
 /**
  * Implements hook_commerce_product_type_info().

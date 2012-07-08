@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains callback functions for the commerce_donate checkout pane.
+ */
+
+/**
  * Configure the donation checkout pane.
  */
 function commerce_donate_checkout_pane_settings_form($checkout_pane) {
