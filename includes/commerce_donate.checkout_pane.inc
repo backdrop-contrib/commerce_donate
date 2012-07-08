@@ -13,7 +13,6 @@ function commerce_donate_checkout_pane_settings_form($checkout_pane) {
   $products = commerce_product_load_multiple(array(), array('type' => 'donation'));
   if (empty($products)) {
     drupal_set_message(t('You must configure at least one donation product in order to accept donations during checkout.'), 'error');
-    return array();
   }
   foreach ($products as $pid => $product) {
     $options[$pid] = $product->title;
