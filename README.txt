@@ -2,7 +2,7 @@
 -- SUMMARY --
 
 This module provides a donation line item type along with a donation product and
-product display. This is largely based on Randy Fay's excellent screencast at
+product display. This is partially based on Randy Fay's excellent screencast at
 http://commerceguys.com/blog/using-custom-line-items-provide-donation-feature-drupal-commerce
 
 It uses the Select or Other module (http://drupal.org/project/select_or_other)
@@ -87,4 +87,10 @@ This project has been sponsored by:
   offers design, development, theming, customization and training services.
   Visit http://www.annertech.com for more information.
 
+
+-- CREDIT --
+
+Thanks to Randy Fay (rfay : http://drupal.org/user/30906) for his excellent
+screencast on creating donation products for Drupal Commerce:
+http://commerceguys.com/blog/using-custom-line-items-provide-donation-feature-drupal-commerce
 
