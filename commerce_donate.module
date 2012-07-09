@@ -14,7 +14,7 @@ function commerce_donate_commerce_product_type_info() {
     'donation' => array(
       'type' => 'donation',
       'name' => 'Donation',
-      'description' => 'Variable price product foo',
+      'description' => 'Variable price product',
       'help' => '',
       'revision' => '1',
       'module' => 'commerce_donate',
