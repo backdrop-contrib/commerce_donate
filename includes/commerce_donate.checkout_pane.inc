@@ -81,7 +81,7 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
       elseif ($field_name == 'commerce_donate_amount') {
         $language = $pane_form[$pane_id][$field_name]['#language'];
         $form_state['language'] = $language;
-        $pane_form[$pane_id][$field_name][$language]['#default_value']['value'] = 'none';
+        $pane_form[$pane_id][$field_name][$language]['#default_value']['value'] = '';
         $default_options = $pane_form[$pane_id][$field_name][$language]['#options'];
         // Override default field available options.
         if (variable_get('commerce_donate_checkout_pane_override_options', FALSE)) {
@@ -101,11 +101,12 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
           }
         }
         // Add in 'none' option.
-        $options = array('none' => t('None'));
+        $options = array('' => t('None'));
         foreach ($default_options as $key => $label) {
           $options[$key] = $label;
         }
         $pane_form[$pane_id][$field_name][$language]['#options'] = $options;
+        $pane_form[$pane_id][$field_name][$language]['#required'] = FALSE;
       }
     }
     return $pane_form;
@@ -122,10 +123,10 @@ function commerce_donate_checkout_pane_checkout_form_validate($form, &$form_stat
     $pane_form = $form[$pane_id];
     $pane_values = $form_state['values'][$pane_id];
     $language = $form_state['language'];
-    $amount = $pane_values['commerce_donate_amount'][$language][0]['value'];
+    $amount = (!empty($pane_values['commerce_donate_amount'][$language][0]['value'])) ? $pane_values['commerce_donate_amount'][$language][0]['value'] : 0;
 
     // Validate the amount entered if not 'none'.
-    if (!empty($amount) && $amount != 'none') {
+    if (!empty($amount)) {
       field_attach_form_validate('commerce_line_item', $form_state['donate_line_item'], $form[$pane_id], $form_state);
       if (form_get_errors()) {
         return FALSE;
@@ -144,9 +145,9 @@ function commerce_donate_checkout_pane_checkout_form_submit($form, &$form_state,
   $pane_values = $form_state['values'];
   $line_item = $form_state['donate_line_item'];
   $language = $form_state['language'];
-  $amount = $pane_values[$pane_id]['commerce_donate_amount'][$language][0]['value'];
-  if (!empty($amount) && $amount != 'none') {
+  $amount = (!empty($pane_values[$pane_id]['commerce_donate_amount'][$language][0]['value'])) ? $pane_values[$pane_id]['commerce_donate_amount'][$language][0]['value'] : 0;
 
+  if (!empty($amount)) {
     field_attach_submit('commerce_line_item', $line_item, $form[$pane_id], $form_state);
     $product_id = variable_get('commerce_donate_checkout_pane_product_id', 0);
 
