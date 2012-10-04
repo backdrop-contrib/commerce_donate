@@ -69,7 +69,7 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
       '#weight' => 10,
       '#tree' => TRUE,
     );
-    field_attach_form('commerce_line_item', $line_item, &$pane_form[$pane_id], &$form_state);
+    field_attach_form('commerce_line_item', $line_item, $pane_form[$pane_id], $form_state);
     foreach (element_children($pane_form[$pane_id]) as $field_name) {
       $info = field_info_instance('commerce_line_item', $field_name, $line_item->type);
       $pane_form[$pane_id][$field_name]['#commerce_cart_settings'] = commerce_cart_field_instance_access_settings($info);
