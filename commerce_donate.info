@@ -16,6 +16,7 @@ dependencies[] = commerce_product
 dependencies[] = commerce_product_reference
 dependencies[] = entity
 dependencies[] = field
+dependencies[] = number
 dependencies[] = options
 dependencies[] = rules
 dependencies[] = select_or_other
