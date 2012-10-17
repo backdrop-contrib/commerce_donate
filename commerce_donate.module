@@ -123,7 +123,7 @@ function commerce_donate_commerce_donate_line_item_configuration($line_item_type
  * Returns a title for this line item.
  */
 function commerce_donate_commerce_donate_line_item_title($line_item) {
-  return t(ucfirst($line_item->line_item_label));
+  return commerce_product_line_item_title($line_item);
 }
 
 /**
