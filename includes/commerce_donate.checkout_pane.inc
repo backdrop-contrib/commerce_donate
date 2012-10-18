@@ -152,7 +152,8 @@ function commerce_donate_checkout_pane_checkout_form_submit($form, &$form_state,
     $product_id = variable_get('commerce_donate_checkout_pane_product_id', 0);
 
     if (!empty($product_id) && !empty($amount) && !empty($order)) {
-      $line_item->line_item_label = t('In checkout donation');
+      $product = commerce_product_load($product_id);
+      $line_item->line_item_label = $product->sku;
       // Save the line item and add it to the cart.
       commerce_line_item_save($line_item);
       commerce_cart_product_add($order->uid, $line_item, FALSE);
