@@ -10,7 +10,7 @@
  */
 function commerce_donate_checkout_pane_settings_form($checkout_pane) {
   $options = array();
-  $products = commerce_product_load_multiple(array(), array('type' => 'donation'));
+  $products = commerce_product_load_multiple(array(), array('type' => 'donation', 'status' => 1));
   if (empty($products)) {
     drupal_set_message(t('You must configure at least one donation product in order to accept donations during checkout.'), 'error');
   }
@@ -89,31 +89,34 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
         $language = $pane_form[$pane_id][$field_name]['#language'];
         $form_state['language'] = $language;
         $pane_form[$pane_id][$field_name][$language]['#default_value']['value'] = '';
-        $default_options = $pane_form[$pane_id][$field_name][$language]['#options'];
-        // Override default field available options.
-        if (variable_get('commerce_donate_checkout_pane_override_options', FALSE)) {
-          $overridden_options_string = variable_get('commerce_donate_checkout_pane_donate_amounts', '');
-          if (!empty($overridden_options_string)) {
-            $line_options = explode("\n", $overridden_options_string);
-            $pos = strpos($overridden_options_string, '|');
+        $pane_form[$pane_id][$field_name][$language]['#required'] = FALSE;
+        // Allow for people changing the select to a text field.
+        if (!empty($pane_form[$pane_id][$field_name][$language]['#options'])) {
+          $default_options = $pane_form[$pane_id][$field_name][$language]['#options'];
+          // Override default field available options.
+          if (variable_get('commerce_donate_checkout_pane_override_options', FALSE)) {
+            $overridden_options_string = variable_get('commerce_donate_checkout_pane_donate_amounts', '');
+            if (!empty($overridden_options_string)) {
+              $line_options = explode("\n", $overridden_options_string);
+              $pos = strpos($overridden_options_string, '|');
 
-            if ($pos !== FALSE) {
-              // There are keys.
-              foreach ($line_options as $line) {
-                $exploded = explode('|', $line);
-                $temp_options[$exploded[0]] = $exploded[1];
+              if ($pos !== FALSE) {
+                // There are keys.
+                foreach ($line_options as $line) {
+                  $exploded = explode('|', $line);
+                  $temp_options[$exploded[0]] = $exploded[1];
+                }
+                $default_options = $temp_options;
               }
-              $default_options = $temp_options;
             }
           }
+          // Add in 'none' option.
+          $options = array('' => t('None'));
+          foreach ($default_options as $key => $label) {
+            $options[$key] = $label;
+          }
+          $pane_form[$pane_id][$field_name][$language]['#options'] = $options;
         }
-        // Add in 'none' option.
-        $options = array('' => t('None'));
-        foreach ($default_options as $key => $label) {
-          $options[$key] = $label;
-        }
-        $pane_form[$pane_id][$field_name][$language]['#options'] = $options;
-        $pane_form[$pane_id][$field_name][$language]['#required'] = FALSE;
 
         $description = variable_get('commerce_donate_checkout_pane_description', '');
         if (!empty($description)) {
