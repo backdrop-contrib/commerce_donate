@@ -141,6 +141,10 @@ function commerce_donate_checkout_pane_checkout_form_validate($form, &$form_stat
  * Add the additional donation as a line item to the cart.
  */
 function commerce_donate_checkout_pane_checkout_form_submit($form, &$form_state, $checkout_pane, $order) {
+  // No donation pane, or perhaps product, available.
+  if (empty($form_state['donate_line_item'])) {
+    return;
+  }
   $pane_id = $checkout_pane['pane_id'];
   $pane_values = $form_state['values'];
   $line_item = $form_state['donate_line_item'];
