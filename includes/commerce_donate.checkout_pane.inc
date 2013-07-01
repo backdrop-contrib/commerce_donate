@@ -23,6 +23,13 @@ function commerce_donate_checkout_pane_settings_form($checkout_pane) {
     '#title' => t('Checkout pane title'),
     '#default_value' => variable_get('commerce_donate_checkout_pane_title', ''),
   );
+
+  $form['commerce_donate_checkout_pane_description'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Checkout pane description'),
+    '#default_value' => variable_get('commerce_donate_checkout_pane_description', ''),
+  );
+
   $form['commerce_donate_checkout_pane_product_id'] = array(
     '#type' => 'select',
     '#title' => t('Donation product'),
@@ -107,6 +114,12 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
         }
         $pane_form[$pane_id][$field_name][$language]['#options'] = $options;
         $pane_form[$pane_id][$field_name][$language]['#required'] = FALSE;
+
+        $description = variable_get('commerce_donate_checkout_pane_description', '');
+        if (!empty($description)) {
+          $pane_form[$pane_id][$field_name][$language]['#prefix'] = filter_xss($description);
+        }
+
       }
     }
     return $pane_form;
