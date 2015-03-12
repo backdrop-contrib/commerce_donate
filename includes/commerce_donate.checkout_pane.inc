@@ -88,7 +88,7 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
       elseif ($field_name == 'commerce_donate_amount') {
         $language = $pane_form[$pane_id][$field_name]['#language'];
         $form_state['language'] = $language;
-        $pane_form[$pane_id][$field_name][$language]['#default_value']['value'] = '';
+        $pane_form[$pane_id][$field_name][$language]['#default_value'] = '';
         $pane_form[$pane_id][$field_name][$language]['#required'] = FALSE;
         // Allow for people changing the select to a text field.
         if (!empty($pane_form[$pane_id][$field_name][$language]['#options'])) {
