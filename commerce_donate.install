@@ -15,10 +15,12 @@ function commerce_donate_install() {
     field_info_cache_clear();
 
     foreach ($fields as $field) {
-      // Create field if required.
+      // Create or update field.
       $field_config = $field['field_config'];
-      $existing_field = field_info_field($field_config['field_name']);
-      if (empty($existing_field)) {
+      if ($existing_field = field_info_field($field_config['field_name'])) {
+        field_update_field($field_config);
+      }
+      else {
         field_create_field($field_config);
       }
 
