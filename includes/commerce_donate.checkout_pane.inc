@@ -9,10 +9,11 @@
  * Configure the donation checkout pane.
  */
 function commerce_donate_checkout_pane_settings_form($checkout_pane) {
+  $config = config('commerce_donate.settings');
   $options = array();
   $products = commerce_product_load_multiple(array(), array('type' => 'donation', 'status' => 1));
   if (empty($products)) {
-    drupal_set_message(t('You must configure at least one donation product in order to accept donations during checkout.'), 'error');
+    backdrop_set_message(t('You must configure at least one donation product in order to accept donations during checkout.'), 'error');
   }
   foreach ($products as $pid => $product) {
     $options[$pid] = $product->title;
@@ -21,32 +22,32 @@ function commerce_donate_checkout_pane_settings_form($checkout_pane) {
   $form['commerce_donate_checkout_pane_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Checkout pane title'),
-    '#default_value' => variable_get('commerce_donate_checkout_pane_title', ''),
+    '#default_value' => $config->get('commerce_donate_checkout_pane_title'),
   );
 
   $form['commerce_donate_checkout_pane_description'] = array(
     '#type' => 'textarea',
     '#title' => t('Checkout pane description'),
-    '#default_value' => variable_get('commerce_donate_checkout_pane_description', ''),
+    '#default_value' => $config->get('commerce_donate_checkout_pane_description'),
   );
 
   $form['commerce_donate_checkout_pane_product_id'] = array(
     '#type' => 'select',
     '#title' => t('Donation product'),
     '#options' => $options,
-    '#default_value' => variable_get('commerce_donate_checkout_pane_product_id', 0),
+    '#default_value' => $config->get('commerce_donate_checkout_pane_product_id'),
     '#description' => t('Donation product to use when adding line item to the cart.'),
   );
   $form['commerce_donate_checkout_pane_override_options'] = array(
     '#type' => 'checkbox',
     '#title' => t('Override available options'),
-    '#default_value' => variable_get('commerce_donate_checkout_pane_override_options', FALSE),
+    '#default_value' => $config->get('commerce_donate_checkout_pane_override_options'),
   );
   $form['commerce_donate_checkout_pane_donate_amounts'] = array(
     '#type' => 'textarea',
     '#title' => t('Available options'),
     '#description' => t('A list of values that are, by default, available for selection. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and the label is what will be displayed to the user.  For example, "5|5.00"'),
-    '#default_value' => variable_get('commerce_donate_checkout_pane_donate_amounts', ''),
+    '#default_value' => $config->get('commerce_donate_checkout_pane_donate_amounts'),
     '#states' => array(
       'visible' => array(
         ':input[name="commerce_donate_checkout_pane_override_options"]' => array('checked' => TRUE),
@@ -61,8 +62,9 @@ function commerce_donate_checkout_pane_settings_form($checkout_pane) {
  * Create the donate checkout pane form.
  */
 function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $checkout_pane, $order) {
+  $config = config('commerce_donate.settings');
   $pane_id = $checkout_pane['pane_id'];
-  $product_id = variable_get('commerce_donate_checkout_pane_product_id', 0);
+  $product_id = $config->get('commerce_donate_checkout_pane_product_id');
   if (!empty($product_id) || !is_numeric($product_id)) {
     $pane_form = array();
     $product = commerce_product_load($product_id);
@@ -111,8 +113,8 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
         if (!empty($pane_form[$pane_id][$field_name][$language]['#options'])) {
           $default_options = $pane_form[$pane_id][$field_name][$language]['#options'];
           // Override default field available options.
-          if (variable_get('commerce_donate_checkout_pane_override_options', FALSE)) {
-            $overridden_options_string = variable_get('commerce_donate_checkout_pane_donate_amounts', '');
+          if ($config->get('commerce_donate_checkout_pane_override_options')) {
+            $overridden_options_string = $config->get('commerce_donate_checkout_pane_donate_amounts');
             if (!empty($overridden_options_string)) {
               $line_options = explode("\n", $overridden_options_string);
               $pos = strpos($overridden_options_string, '|');
@@ -135,7 +137,7 @@ function commerce_donate_checkout_pane_checkout_form($form, &$form_state, $check
           $pane_form[$pane_id][$field_name][$language]['#options'] = $options;
         }
 
-        $description = variable_get('commerce_donate_checkout_pane_description', '');
+        $description = $config->get('commerce_donate_checkout_pane_description');
         if (!empty($description)) {
           $pane_form[$pane_id][$field_name][$language]['#prefix'] = filter_xss($description);
         }
@@ -188,7 +190,7 @@ function commerce_donate_checkout_pane_checkout_form_submit($form, &$form_state,
 
   if (!empty($amount)) {
     field_attach_submit('commerce_line_item', $line_item, $form[$pane_id], $form_state);
-    $product_id = variable_get('commerce_donate_checkout_pane_product_id', 0);
+    $product_id = config_get('commerce_donate.settings', 'commerce_donate_checkout_pane_product_id');
 
     if (!empty($product_id) && !empty($amount) && !empty($order)) {
       $product = commerce_product_load($product_id);

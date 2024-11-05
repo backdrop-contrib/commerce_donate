@@ -11,7 +11,7 @@
  */
 function commerce_donate_default_rules_configuration() {
   $items = array();
-  $items['rules_add_donation_value_to_price'] = entity_import('rules_config', '{ "rules_add_donation_value_to_price" : {
+  $items['rules_add_donation_value_to_price'] = entity_plus_import('rules_config', '{ "rules_add_donation_value_to_price" : {
       "LABEL" : "Add donation value to price",
       "PLUGIN" : "reaction rule",
       "REQUIRES" : [ "rules", "commerce_line_item", "commerce_product_reference", "entity" ],

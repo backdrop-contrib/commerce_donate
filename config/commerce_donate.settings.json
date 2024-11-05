@@ -1,0 +1,8 @@
+{
+    "_config_name": "commerce_donate.settings",
+    "commerce_donate_checkout_pane_title": "Add a donation",
+    "commerce_donate_checkout_pane_description": "",
+    "commerce_donate_checkout_pane_product_id": "0",
+    "commerce_donate_checkout_pane_override_options": false,
+    "commerce_donate_checkout_pane_donate_amounts": ""
+}
